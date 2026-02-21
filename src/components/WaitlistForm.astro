@@ -1,12 +1,11 @@
 ---
-const formId = import.meta.env.PUBLIC_KIT_FORM_ID;
-const apiKey = import.meta.env.PUBLIC_KIT_API_KEY;
+import { KIT_FORM_ID, KIT_API_KEY } from '../consts';
 ---
 
 <form
   data-waitlist-form
-  data-form-id={formId}
-  data-api-key={apiKey}
+  data-form-id={KIT_FORM_ID}
+  data-api-key={KIT_API_KEY}
   class="flex flex-col sm:flex-row gap-2.5 w-full max-w-md"
 >
   <input
@@ -29,7 +28,6 @@ const apiKey = import.meta.env.PUBLIC_KIT_API_KEY;
   function initWaitlistForms() {
     document.querySelectorAll('[data-waitlist-form]').forEach((form) => {
       const f = form as HTMLFormElement;
-      // Skip if already initialized
       if (f.dataset.initialized) return;
       f.dataset.initialized = 'true';
 
