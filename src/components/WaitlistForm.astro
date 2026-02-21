@@ -1,83 +1,181 @@
 ---
-import { KIT_FORM_ID, KIT_API_KEY } from '../consts';
+import { KIT_FORM_ID } from '../consts';
 ---
 
-<form
-  data-waitlist-form
-  data-form-id={KIT_FORM_ID}
-  data-api-key={KIT_API_KEY}
-  class="flex flex-col sm:flex-row gap-2.5 w-full max-w-md"
->
-  <input
-    type="email"
-    name="email"
-    placeholder="you@example.com"
-    required
-    class="w-full sm:flex-1 h-12 px-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] placeholder-[var(--tertiary)] text-sm outline-none transition-all focus:border-[#F97316]/50 focus:ring-2 focus:ring-[#F97316]/10"
-  />
-  <button
-    type="submit"
-    class="h-12 px-7 rounded-xl bg-[#F97316] hover:bg-[#EA580C] active:scale-[0.98] text-white font-semibold text-sm transition-all cursor-pointer whitespace-nowrap shadow-[0_1px_12px_rgba(249,115,22,0.25)] hover:shadow-[0_1px_20px_rgba(249,115,22,0.35)]"
+<div data-waitlist-root class="w-full max-w-md">
+  <!-- Form state -->
+  <form
+    data-waitlist-form
+    data-form-id={KIT_FORM_ID}
+    class="flex flex-col sm:flex-row gap-2.5 w-full transition-all duration-300"
   >
-    Join Waitlist
-  </button>
-  <p data-waitlist-msg class="hidden absolute -bottom-6 left-0 text-xs"></p>
-</form>
+    <div class="relative w-full sm:flex-1">
+      <input
+        type="email"
+        name="email"
+        placeholder="you@example.com"
+        required
+        class="w-full h-12 px-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] placeholder-[var(--tertiary)] text-sm outline-none transition-all duration-200 focus:border-[#F97316]/50 focus:ring-2 focus:ring-[#F97316]/10"
+      />
+      <!-- Inline error -->
+      <p data-waitlist-error class="absolute -bottom-5 left-1 text-[11px] text-red-500 opacity-0 transition-opacity duration-200"></p>
+    </div>
+    <button
+      type="submit"
+      data-waitlist-btn
+      class="relative h-12 px-7 rounded-xl bg-[#F97316] hover:bg-[#EA580C] active:scale-[0.98] text-white font-semibold text-sm transition-all duration-200 cursor-pointer whitespace-nowrap shadow-[0_1px_12px_rgba(249,115,22,0.25)] hover:shadow-[0_1px_20px_rgba(249,115,22,0.35)] overflow-hidden"
+    >
+      <span data-btn-text class="inline-flex items-center gap-1.5 transition-all duration-200">Join Waitlist</span>
+      <!-- Spinner -->
+      <span data-btn-spinner class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200">
+        <svg class="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2.5" opacity="0.3"></circle>
+          <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></path>
+        </svg>
+      </span>
+    </button>
+  </form>
+
+  <!-- Success state (hidden by default) -->
+  <div data-waitlist-success class="flex items-center gap-3 h-12 opacity-0 scale-95 transition-all duration-400 pointer-events-none absolute">
+    <div class="w-10 h-10 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20 flex items-center justify-center shrink-0">
+      <svg class="w-5 h-5 text-[#22C55E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path data-check-path d="M20 6L9 17l-5-5" style="stroke-dasharray: 30; stroke-dashoffset: 30; transition: stroke-dashoffset 0.4s ease 0.2s;" />
+      </svg>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-[var(--text)]">You're on the list!</p>
+      <p class="text-xs text-[var(--tertiary)]">Check your inbox to confirm.</p>
+    </div>
+  </div>
+</div>
 
 <script>
   function initWaitlistForms() {
-    document.querySelectorAll('[data-waitlist-form]').forEach((form) => {
-      const f = form as HTMLFormElement;
-      if (f.dataset.initialized) return;
-      f.dataset.initialized = 'true';
+    document.querySelectorAll('[data-waitlist-root]').forEach((root) => {
+      const el = root as HTMLElement;
+      if (el.dataset.initialized) return;
+      el.dataset.initialized = 'true';
 
-      f.addEventListener('submit', async (e) => {
+      const form = el.querySelector('[data-waitlist-form]') as HTMLFormElement;
+      const input = form.querySelector('input[name="email"]') as HTMLInputElement;
+      const btn = form.querySelector('[data-waitlist-btn]') as HTMLButtonElement;
+      const btnText = btn.querySelector('[data-btn-text]') as HTMLElement;
+      const btnSpinner = btn.querySelector('[data-btn-spinner]') as HTMLElement;
+      const errorEl = form.querySelector('[data-waitlist-error]') as HTMLElement;
+      const successEl = el.querySelector('[data-waitlist-success]') as HTMLElement;
+      const checkPath = successEl.querySelector('[data-check-path]') as SVGPathElement;
+
+      function showError(msg: string) {
+        errorEl.textContent = msg;
+        errorEl.style.opacity = '1';
+        input.style.borderColor = 'rgb(239 68 68 / 0.5)';
+        setTimeout(() => {
+          errorEl.style.opacity = '0';
+          input.style.borderColor = '';
+        }, 3000);
+      }
+
+      function setLoading(loading: boolean) {
+        btn.disabled = loading;
+        if (loading) {
+          btnText.style.opacity = '0';
+          btnText.style.transform = 'translateY(4px)';
+          btnSpinner.style.opacity = '1';
+          btn.style.pointerEvents = 'none';
+        } else {
+          btnText.style.opacity = '1';
+          btnText.style.transform = 'translateY(0)';
+          btnSpinner.style.opacity = '0';
+          btn.style.pointerEvents = '';
+        }
+      }
+
+      function showSuccess() {
+        // Slide form out
+        form.style.opacity = '0';
+        form.style.transform = 'translateY(-8px)';
+        form.style.pointerEvents = 'none';
+
+        setTimeout(() => {
+          form.style.position = 'absolute';
+          // Show success
+          successEl.style.position = 'relative';
+          successEl.style.opacity = '1';
+          successEl.style.transform = 'scale(1)';
+          successEl.style.pointerEvents = 'auto';
+          // Animate checkmark
+          checkPath.style.strokeDashoffset = '0';
+        }, 300);
+
+        // Reset after 5s
+        setTimeout(() => {
+          successEl.style.opacity = '0';
+          successEl.style.transform = 'scale(0.95)';
+          successEl.style.pointerEvents = 'none';
+
+          setTimeout(() => {
+            successEl.style.position = 'absolute';
+            form.style.position = 'relative';
+            form.style.opacity = '1';
+            form.style.transform = 'translateY(0)';
+            form.style.pointerEvents = '';
+            setLoading(false);
+            input.value = '';
+            checkPath.style.strokeDashoffset = '30';
+          }, 300);
+        }, 5000);
+      }
+
+      // Clear error on input
+      input.addEventListener('input', () => {
+        errorEl.style.opacity = '0';
+        input.style.borderColor = '';
+      });
+
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const formId = f.dataset.formId;
-        const apiKey = f.dataset.apiKey;
-        const emailInput = f.querySelector('input[name="email"]') as HTMLInputElement;
-        const btn = f.querySelector('button') as HTMLButtonElement;
-        const msg = f.querySelector('[data-waitlist-msg]') as HTMLElement;
-        const email = emailInput?.value?.trim();
+        const formId = form.dataset.formId;
+        const email = input.value.trim();
 
-        if (!email) return;
+        if (!email) {
+          showError('Please enter your email');
+          input.focus();
+          return;
+        }
 
-        btn.disabled = true;
-        btn.textContent = 'Joining...';
-        msg.classList.add('hidden');
+        setLoading(true);
+        errorEl.style.opacity = '0';
 
         try {
           const res = await fetch(
-            `https://api.convertkit.com/v3/forms/${formId}/subscribe`,
+            `https://app.kit.com/forms/${formId}/subscriptions`,
             {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json; charset=utf-8' },
-              body: JSON.stringify({ api_key: apiKey, email }),
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              },
+              body: JSON.stringify({ email_address: email }),
             }
           );
 
-          if (res.ok) {
-            btn.textContent = 'You\'re in!';
-            btn.classList.remove('bg-[#F97316]', 'hover:bg-[#EA580C]');
-            btn.classList.add('bg-[#22C55E]');
-            emailInput.value = '';
-            setTimeout(() => {
-              btn.textContent = 'Join Waitlist';
-              btn.classList.remove('bg-[#22C55E]');
-              btn.classList.add('bg-[#F97316]', 'hover:bg-[#EA580C]');
-              btn.disabled = false;
-            }, 3000);
+          const data = await res.json().catch(() => null);
+
+          if (res.ok && data?.status === 'success') {
+            showSuccess();
           } else {
-            throw new Error('Request failed');
+            throw new Error(data?.error || 'Request failed');
           }
-        } catch {
-          msg.textContent = 'Something went wrong. Try again.';
-          msg.classList.remove('hidden');
-          msg.classList.add('text-red-500');
-          btn.textContent = 'Join Waitlist';
-          btn.disabled = false;
-          setTimeout(() => msg.classList.add('hidden'), 4000);
+        } catch (err: any) {
+          setLoading(false);
+          showError(err?.message === 'Failed to fetch'
+            ? 'Network error. Check your connection.'
+            : 'Something went wrong. Try again.');
+          // Shake the button
+          btn.style.animation = 'shake 0.4s ease';
+          setTimeout(() => btn.style.animation = '', 400);
         }
       });
     });
@@ -86,3 +184,13 @@ import { KIT_FORM_ID, KIT_API_KEY } from '../consts';
   initWaitlistForms();
   document.addEventListener('astro:after-swap', initWaitlistForms);
 </script>
+
+<style>
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-4px); }
+    40% { transform: translateX(4px); }
+    60% { transform: translateX(-3px); }
+    80% { transform: translateX(3px); }
+  }
+</style>
