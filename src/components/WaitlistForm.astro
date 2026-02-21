@@ -1,0 +1,23 @@
+---
+const formId = import.meta.env.PUBLIC_KIT_FORM_ID;
+---
+
+<form
+  action={`https://app.kit.com/forms/${formId}/subscriptions`}
+  method="post"
+  class="flex flex-col sm:flex-row gap-2.5 w-full max-w-md"
+>
+  <input
+    type="email"
+    name="email_address"
+    placeholder="you@example.com"
+    required
+    class="flex-1 h-12 px-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] placeholder-[var(--tertiary)] text-sm outline-none transition-all focus:border-[#F97316]/50 focus:ring-2 focus:ring-[#F97316]/10"
+  />
+  <button
+    type="submit"
+    class="h-12 px-7 rounded-xl bg-[#F97316] hover:bg-[#EA580C] active:scale-[0.98] text-white font-semibold text-sm transition-all cursor-pointer whitespace-nowrap shadow-[0_1px_12px_rgba(249,115,22,0.25)] hover:shadow-[0_1px_20px_rgba(249,115,22,0.35)]"
+  >
+    Join Waitlist
+  </button>
+</form>

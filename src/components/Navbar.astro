@@ -1,0 +1,27 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[var(--nav-bg)] border-b border-[var(--border)]/50">
+  <div class="mx-auto max-w-[1400px] px-6 flex h-14 items-center justify-between">
+    <!-- Logo -->
+    <a href="/" class="flex items-center font-mono text-[15px] font-bold tracking-tight text-[var(--text)] hover:text-[#F97316] transition-colors">
+      <span class="text-[#F97316] mr-1.5">&gt;</span>memctl
+    </a>
+
+    <!-- Right side -->
+    <div class="flex items-center gap-1.5">
+      <a
+        href="/privacy"
+        class="px-3 py-1.5 text-[13px] text-[var(--secondary)] hover:text-[var(--text)] transition-colors rounded-lg hover:bg-[var(--border)]/40"
+      >
+        Privacy
+      </a>
+      <div class="w-px h-4 bg-[var(--border)] mx-1"></div>
+      <ThemeToggle />
+    </div>
+  </div>
+</nav>
+
+<!-- Spacer -->
+<div class="h-14"></div>

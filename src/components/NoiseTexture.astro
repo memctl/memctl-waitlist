@@ -1,0 +1,35 @@
+---
+---
+
+<div data-noise class="pointer-events-none fixed inset-0 z-[100] opacity-[0.025] mix-blend-overlay" aria-hidden="true"></div>
+
+<script>
+  function initNoise() {
+    const el = document.querySelector('[data-noise]') as HTMLElement;
+    if (!el) return;
+
+    const size = 128;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const imageData = ctx.createImageData(size, size);
+    const data = imageData.data;
+    for (let i = 0; i < data.length; i += 4) {
+      const v = Math.random() * 255;
+      data[i] = Math.min(255, v * 1.1);     // red (warm tint)
+      data[i + 1] = v * 0.95;                // green
+      data[i + 2] = v * 0.9;                 // blue
+      data[i + 3] = 255;
+    }
+    ctx.putImageData(imageData, 0, 0);
+
+    el.style.backgroundImage = `url(${canvas.toDataURL()})`;
+    el.style.backgroundRepeat = 'repeat';
+  }
+
+  initNoise();
+  document.addEventListener('astro:after-swap', initNoise);
+</script>

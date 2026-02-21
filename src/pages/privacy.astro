@@ -1,0 +1,203 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WaitlistForm from '../components/WaitlistForm.astro';
+---
+
+<BaseLayout title="Privacy Policy | memctl" description="Privacy policy for the memctl waitlist.">
+
+  <!-- ══ Header ══ -->
+  <section class="relative overflow-hidden pb-10 pt-8 lg:pt-12">
+    <!-- Blueprint hatching -->
+    <div
+      class="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(-45deg,transparent,transparent_6px,var(--border)_6px,var(--border)_7px)] opacity-[0.2] [mask-image:radial-gradient(ellipse_50%_60%_at_30%_50%,black_40%,transparent_100%)]"
+      aria-hidden="true"
+    ></div>
+
+    <!-- Structural frame lines -->
+    <div class="pointer-events-none absolute inset-0 z-[5]" aria-hidden="true">
+      <div class="mx-auto flex h-full max-w-[1400px] justify-between px-6">
+        <div class="w-px bg-gradient-to-b from-transparent via-[var(--border)] to-transparent opacity-[0.12]"></div>
+        <div class="w-px bg-[var(--border)] opacity-[0.06]"></div>
+        <div class="w-px bg-gradient-to-b from-transparent via-[var(--border)] to-transparent opacity-[0.12]"></div>
+      </div>
+    </div>
+
+    <!-- Bottom fade -->
+    <div
+      class="pointer-events-none absolute inset-x-0 bottom-0 z-[11] h-20"
+      style="background: linear-gradient(to top, var(--bg), transparent)"
+      aria-hidden="true"
+    ></div>
+
+    <div class="relative z-10 mx-auto max-w-[1400px] px-6">
+      <p class="font-mono text-[12px] text-[var(--tertiary)] mb-2">
+        <span class="text-[#F97316]">//</span> legal
+      </p>
+      <h1 class="text-3xl md:text-4xl font-bold tracking-[-0.02em] mb-2">Privacy Policy</h1>
+      <p class="text-sm text-[var(--tertiary)]">Last updated: February 21, 2026</p>
+    </div>
+  </section>
+
+  <!-- ── Divider ── -->
+  <div class="relative flex items-center" aria-hidden="true">
+    <div class="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent"></div>
+    <div class="relative mx-auto flex w-full max-w-[1400px] justify-between px-6">
+      <div class="h-1.5 w-1.5 rounded-full bg-[var(--border)]"></div>
+      <div class="h-1.5 w-1.5 rounded-full bg-[var(--border)]"></div>
+      <div class="h-1.5 w-1.5 rounded-full bg-[var(--border)]"></div>
+    </div>
+  </div>
+
+  <!-- ══ Content ══ -->
+  <section class="relative py-12 lg:py-16">
+    <!-- Structural frame lines -->
+    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+      <div class="mx-auto flex h-full max-w-[1400px] justify-between px-6">
+        <div class="w-px bg-gradient-to-b from-transparent via-[var(--border)] to-transparent opacity-[0.12]"></div>
+        <div class="w-px bg-gradient-to-b from-transparent via-[var(--border)] to-transparent opacity-[0.12]"></div>
+      </div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-[1400px] px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-10 lg:gap-16">
+
+        <!-- Left: nav sidebar -->
+        <nav class="hidden lg:block">
+          <div class="sticky top-20">
+            <p class="font-mono text-[11px] uppercase tracking-widest text-[var(--tertiary)] mb-4">On this page</p>
+            <ul class="space-y-2.5">
+              {[
+                { id: 'collect', label: 'Information We Collect' },
+                { id: 'use', label: 'How We Use It' },
+                { id: 'third-party', label: 'Third-Party Services' },
+                { id: 'retention', label: 'Data Retention' },
+                { id: 'cookies', label: 'Cookies' },
+                { id: 'rights', label: 'Your Rights' },
+                { id: 'contact', label: 'Contact' },
+              ].map(item => (
+                <li>
+                  <a href={`#${item.id}`} class="text-sm text-[var(--secondary)] hover:text-[var(--text)] transition-colors">
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </nav>
+
+        <!-- Right: content -->
+        <div class="space-y-8 text-[var(--secondary)] text-[15px] leading-[1.75]">
+
+          <div id="collect">
+            <h2 class="text-lg font-semibold text-[var(--text)] mb-2 tracking-tight">Information We Collect</h2>
+            <p>
+              When you sign up for the memctl waitlist, we collect your <strong class="text-[var(--text)]">email address</strong>. This is the only personal information we collect. We do not collect names, IP addresses, browser fingerprints, or any other identifying information.
+            </p>
+          </div>
+
+          <div class="h-px bg-gradient-to-r from-[var(--border)] to-transparent"></div>
+
+          <div id="use">
+            <h2 class="text-lg font-semibold text-[var(--text)] mb-2 tracking-tight">How We Use Your Information</h2>
+            <p>
+              Your email address is used solely to send you product updates about memctl, including launch announcements and early access invitations. We will <strong class="text-[var(--text)]">never sell, rent, or share</strong> your email address with third parties for marketing purposes.
+            </p>
+          </div>
+
+          <div class="h-px bg-gradient-to-r from-[var(--border)] to-transparent"></div>
+
+          <div id="third-party">
+            <h2 class="text-lg font-semibold text-[var(--text)] mb-2 tracking-tight">Third-Party Services</h2>
+            <p>
+              We use <a href="https://kit.com/privacy" target="_blank" rel="noopener noreferrer" class="text-[#F97316] hover:underline">Kit.com</a> (formerly ConvertKit) to manage our email list and send communications. When you submit your email, it is stored and processed by Kit.com according to their privacy policy.
+            </p>
+          </div>
+
+          <div class="h-px bg-gradient-to-r from-[var(--border)] to-transparent"></div>
+
+          <div id="retention">
+            <h2 class="text-lg font-semibold text-[var(--text)] mb-2 tracking-tight">Data Retention</h2>
+            <p>
+              We retain your email address until you unsubscribe from our mailing list. Upon unsubscription, your data will be removed from our active mailing list in accordance with Kit.com's data retention policies.
+            </p>
+          </div>
+
+          <div class="h-px bg-gradient-to-r from-[var(--border)] to-transparent"></div>
+
+          <div id="cookies">
+            <h2 class="text-lg font-semibold text-[var(--text)] mb-2 tracking-tight">Cookies</h2>
+            <p>
+              This website does not use cookies or any tracking technologies. The only client-side storage used is <strong class="text-[var(--text)]">localStorage</strong> to remember your light/dark theme preference. This data never leaves your browser and is not transmitted to any server.
+            </p>
+          </div>
+
+          <div class="h-px bg-gradient-to-r from-[var(--border)] to-transparent"></div>
+
+          <div id="rights">
+            <h2 class="text-lg font-semibold text-[var(--text)] mb-2 tracking-tight">Your Rights</h2>
+            <p class="mb-3">You have the right to:</p>
+            <ul class="space-y-1.5 pl-1">
+              <li class="flex items-start gap-2">
+                <span class="text-[#F97316] mt-1.5 shrink-0">&#8250;</span>
+                <span><strong class="text-[var(--text)]">Access</strong> the personal data we hold about you</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#F97316] mt-1.5 shrink-0">&#8250;</span>
+                <span><strong class="text-[var(--text)]">Delete</strong> your data by requesting removal from our list</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#F97316] mt-1.5 shrink-0">&#8250;</span>
+                <span><strong class="text-[var(--text)]">Unsubscribe</strong> at any time using the link in any email we send</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="h-px bg-gradient-to-r from-[var(--border)] to-transparent"></div>
+
+          <div id="contact">
+            <h2 class="text-lg font-semibold text-[var(--text)] mb-2 tracking-tight">Contact</h2>
+            <p>
+              If you have any questions about this privacy policy or your personal data, contact us at <a href="mailto:team@memctl.com" class="text-[#F97316] hover:underline">team@memctl.com</a>.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Divider ── -->
+  <div class="relative flex items-center" aria-hidden="true">
+    <div class="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent"></div>
+    <div class="relative mx-auto flex w-full max-w-[1400px] justify-between px-6">
+      <div class="h-1.5 w-1.5 rounded-full bg-[var(--border)]"></div>
+      <div class="h-1.5 w-1.5 rounded-full bg-[var(--border)]"></div>
+      <div class="h-1.5 w-1.5 rounded-full bg-[var(--border)]"></div>
+    </div>
+  </div>
+
+  <!-- ══ CTA ══ -->
+  <section class="relative overflow-hidden py-12 lg:py-16">
+    <div class="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] rounded-full bg-orange-500/[0.04] blur-[100px]" aria-hidden="true"></div>
+
+    <div class="relative z-10 mx-auto max-w-[1400px] px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-14">
+        <div class="flex-1">
+          <p class="font-mono text-[12px] text-[var(--tertiary)] mb-1.5">
+            <span class="text-[#F97316]">//</span> early access
+          </p>
+          <h2 class="text-2xl font-bold tracking-[-0.02em] mb-2">
+            Join the waitlist
+          </h2>
+          <p class="text-sm text-[var(--secondary)] max-w-sm leading-relaxed">
+            Get early access when memctl launches.
+          </p>
+        </div>
+        <div class="w-full md:w-auto shrink-0">
+          <WaitlistForm />
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
